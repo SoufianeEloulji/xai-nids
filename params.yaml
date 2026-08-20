@@ -1,0 +1,16 @@
+experiment:
+  name: "CICIDS2017_Experiment"
+  run_name: "MLP_Dynamic_Undersampling"
+
+data:
+  benign_label_idx: 0
+  num_classes: 15
+
+model:
+  hidden_layers: [256, 128, 64]  
+  dropout_rate: 0.3
+
+training:
+  batch_size: 256
+  epochs: 20
+  learning_rate: 0.001
