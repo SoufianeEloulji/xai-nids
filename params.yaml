@@ -1,6 +1,6 @@
 experiment:
   name: "CICIDS2017_Experiment"
-  run_name: "MLP_Dynamic_Undersampling"
+  run_name: "MLP_Dynamic_Undersampling_v3"
 
 data:
   benign_label_idx: 0
@@ -12,5 +12,5 @@ model:
 
 training:
   batch_size: 256
-  epochs: 20
+  epochs: 1
   learning_rate: 0.001

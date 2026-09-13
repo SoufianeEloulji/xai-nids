@@ -2,7 +2,7 @@ import torch
 from src import logger
 import pandas as pd
 from zenml import step
-from src.model_dev import MLPTrainingStrategy
+from src.training.model_dev import MLPTrainingStrategy
 from typing import Annotated
 
 

@@ -2,7 +2,7 @@ from torch import nn
 from src import logger
 import pandas as pd
 from zenml import step
-from src.evaluating_model import ModelEvaluation
+from src.training.evaluating_model import ModelEvaluation
 
 @step(enable_cache=False)
 def evaluate_model(model: nn.Module, X_test: pd.DataFrame, y_test: pd.Series) -> None:

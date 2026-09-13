@@ -1,8 +1,8 @@
 from zenml import pipeline
-from steps.ingesting_data import ingest_data
-from steps.cleaning_data import clean_data
-from steps.training_model import train_model
-from steps.evaluation import evaluate_model
+from steps.training.ingesting_data import ingest_data
+from steps.training.cleaning_data import clean_data
+from steps.training.training_model import train_model
+from steps.training.evaluation import evaluate_model
 
 @pipeline
 def train_pipeline(data_path: str):

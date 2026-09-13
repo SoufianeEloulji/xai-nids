@@ -10,7 +10,7 @@ from torch import nn
 from torch.utils.data import DataLoader
 import yaml
 
-from src.utils import TabularDataset
+from src.training.utils import TabularDataset
 from src import logger
 
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
@@ -35,6 +35,7 @@ class ModelEvaluation:
             dict: A dictionary containing evaluation metrics.
         """
         logger.info("Evaluation started")
+        model = getattr(model, "_orig_mod", model)
         model.eval()
         model.to(self.device)
         
@@ -70,6 +71,7 @@ class ModelEvaluation:
 
 
         logger.info("Logging results and model to MLflow")
+        model = getattr(model, "_orig_mod", model)
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
 
         with open("params.yaml", "r") as file:

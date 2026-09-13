@@ -1,4 +1,4 @@
-from . import logger
+from src import logger
 from abc import ABC, abstractmethod
 import pandas as pd
 import re

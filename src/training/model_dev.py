@@ -5,8 +5,10 @@ import torch.optim as optim
 import numpy as np
 import pandas as pd
 from torch.utils.data import DataLoader
-from src.utils import TabularDataset, IntrusionDetectionModel
+from src.training.utils import TabularDataset, IntrusionDetectionModel
 from abc import ABC, abstractmethod
+
+#from src.explainability.shap_background import build_and_save_background
 
 
 class TrainingStrategy(ABC):
@@ -31,7 +33,17 @@ class MLPTrainingStrategy(TrainingStrategy):
         self.benign_label_idx = config['data']['benign_label_idx']
         self.hidden_layers = config['model']['hidden_layers']
         self.dropout_rate = config['model']['dropout_rate']
+
+        '''
+        to uncomment if you want to save a new background for the explainer module
         
+        shap_cfg = config.get('shap', {})
+        self.build_shap_background = shap_cfg.get('build_background', True)
+        self.shap_background_path = shap_cfg.get('background_path', 'artifacts/shap_background.joblib')
+        self.shap_background_size = shap_cfg.get('background_size', 500)
+        self.shap_background_seed = shap_cfg.get('background_seed', 42)
+        '''
+
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def train_model(self, X_train: pd.DataFrame, y_train: pd.Series) -> nn.Module:
@@ -81,6 +93,19 @@ class MLPTrainingStrategy(TrainingStrategy):
 
             avg_train_loss = running_loss / len(train_loader)
             print(f"Epoch [{epoch+1}/{self.epochs}], Loss: {avg_train_loss:.4f}")
+
+        '''
+                to uncomment if you want to save a new background for the explainer module
+        if self.build_shap_background:
+            print("Génération du background SHAP (nettoyage + échantillonnage stratifié)...")
+            build_and_save_background(
+                X=X_train,
+                y=y_train,
+                output_path=self.shap_background_path,
+                n_samples=self.shap_background_size,
+                seed=self.shap_background_seed,
+        )
+        '''
 
         return model
 
